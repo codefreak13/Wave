@@ -1,0 +1,58 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type AuthToken {
+  id: ID!
+  authCode: String!
+  mobile: String!
+  whenMobileValidated: DateTime
+}
+
+type CompleteSignup {
+  session: Session!
+}
+
+scalar DateTime
+
+type Mutation {
+  startSignup(mobile: String!): StartSignup
+  validateMobile(authCode: String!, tokenId: ID!): ValidateMobile
+  completeSignup(name: String!, pin: String!, tokenId: ID!): CompleteSignup
+}
+
+type Query {
+  me: User
+  now: DateTime!
+  tokens: [AuthToken!]!
+  users: [User!]!
+  sessions: [Session!]!
+}
+
+type Session {
+  id: ID!
+  user: User!
+  whenCreated: DateTime!
+}
+
+type StartSignup {
+  token: AuthToken!
+}
+
+type User {
+  id: ID!
+  fullName: String!
+  mobile: String!
+  wallet: Wallet
+}
+
+type ValidateMobile {
+  success: Boolean!
+  token: AuthToken!
+}
+
+type Wallet {
+  id: ID!
+  balance: Int!
+}
