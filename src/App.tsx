@@ -58,20 +58,18 @@ function Home() {
 
 export default function App() {
   return (
-    <RelayEnvironmentProvider environment={environment}>
-      <Suspense fallback={<Text>Loading...</Text>}>
-        <Provider store={store}>
-          <SafeAreaView style={{flex: 1, marginTop: RFValue(30)}}>
-            <StatusBar
-              barStyle="dark-content"
-              backgroundColor="#f5f5f5"
-              translucent={true}
-            />
-            <Screens />
-          </SafeAreaView>
-        </Provider>
-      </Suspense>
-    </RelayEnvironmentProvider>
+    <Provider store={store}>
+      <RelayEnvironmentProvider environment={environment}>
+        <SafeAreaView style={{flex: 1, marginTop: RFValue(30)}}>
+          <StatusBar
+            barStyle="dark-content"
+            backgroundColor="#f5f5f5"
+            translucent={true}
+          />
+          <Screens />
+        </SafeAreaView>
+      </RelayEnvironmentProvider>
+    </Provider>
   );
 }
 

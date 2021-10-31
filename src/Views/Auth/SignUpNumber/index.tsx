@@ -44,6 +44,7 @@ const SignUpNumber = ({navigation}: IProps) => {
   }, [number]);
 
   const handleSubmit = async () => {
+    console.log('anab');
     if (validateNumber) {
       dispatch(authData({number}));
       commit({
@@ -51,9 +52,11 @@ const SignUpNumber = ({navigation}: IProps) => {
           number,
         },
         onCompleted(data: any) {
-          console.log(data);
-          dispatch(authData({tokenId: data?.startSignup?.token?.id}));
-          data?.startSignup?.token && navigation.navigate('CodeValidation');
+          const tokenId = data?.startSignup?.token?.id;
+          if (tokenId) {
+            dispatch(authData({tokenId}));
+            navigation.navigate('CodeValidation');
+          }
         },
       });
     }

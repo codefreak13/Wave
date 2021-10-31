@@ -1,56 +1,59 @@
 import React, {FC, useMemo} from 'react';
-import {View, Text, Pressable} from 'react-native';
-import CodeInput from 'react-native-confirmation-code-input';
+import {Text, Alert} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
 
-import {BackButton} from '../../../components';
+import {BackButton, PinKeyPad} from '../../../components';
 import createStyles from './styles';
 import {useTheme} from '../../../theme';
+
+import {authData} from '../../../redux/reducers';
 
 interface IProps {
   navigation: NavigationProp<ParamListBase>;
 }
 
 const SecretCode: FC<IProps> = ({navigation}) => {
+  const dispatch = useDispatch();
+
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
-  const {main, title, resend} = styles;
+  const {title} = styles;
 
-  const _getPinKeyPadValue = (value: string) => {
-    if (value.length == 4) {
-      //this.props.navigation.navigate("onboarding_step8");
-      console.log(value);
+  const _getPinKeyPadValue = (secretCode: string) => {
+    if (secretCode.length == 4) {
+      dispatch(authData({secretCode}));
+
+      Alert.alert(
+        'Easy Secret Code',
+        'Are you sure you want to choose a secret code that is easy to guess?',
+        [
+          {
+            text: 'CHANGE SECRET CODE',
+            style: 'cancel',
+          },
+          {
+            text: 'CONTINUE',
+            onPress: () => navigation.navigate('ConfirmSecretCode'),
+          },
+        ],
+        {
+          cancelable: true,
+        },
+      );
     }
   };
 
   return (
     <>
       <BackButton navigation={navigation} />
-      <View style={main}>
-        <Text style={title}>
-          Enter the validation code we texted to {'\n'}r
-        </Text>
-        <CodeInput
-          className={'border-b'}
-          secureTextEntry
-          codeLength={4}
-          size={50}
-          space={4}
-          autoFocus={true}
-          onFulfill={(code: any) => {
-            navigation.navigate('');
-          }}
-          codeInputStyle={{fontWeight: '800', fontSize: 30}}
-          //   containerStyle={{alignItems: 'center', paddingBottom: 150}}
-          cellBorderWidth={1}
-          inactiveColor="#B4B4B4"
-          activeColor="#000"
-        />
-
-        <Pressable>
-          <Text style={resend}>Resend SMS</Text>
-        </Pressable>
-      </View>
+      <Text style={title}>Create a new secret code</Text>
+      <PinKeyPad
+        getPinKeyPadValue={_getPinKeyPadValue}
+        keypadButtonTextStyle={{color: theme.colors.BLACK}}
+        activePinInputColor={theme.colors.NAVY_BLUE}
+        inactivePinInputColor={theme.colors.SKY_BLUE}
+      />
     </>
   );
 };

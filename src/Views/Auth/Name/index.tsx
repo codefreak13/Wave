@@ -42,7 +42,7 @@ const Name = ({navigation}: IProps) => {
 
   const handleSubmit = () => {
     if (validate) {
-      dispatch(authData(fullName));
+      dispatch(authData({fullName}));
       navigation.navigate('SecretCode');
     }
   };

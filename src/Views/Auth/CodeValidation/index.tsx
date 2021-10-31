@@ -5,7 +5,7 @@ import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import {graphql, useMutation} from 'react-relay';
 import {useSelector} from 'react-redux';
 
-import {BackButton} from '../../../components';
+import {BackButton, Loader} from '../../../components';
 import createStyles from './styles';
 import {useTheme} from '../../../theme';
 
@@ -37,7 +37,7 @@ const CodeValidation: FC<IProps> = ({navigation}) => {
   `);
 
   if (isInFlight) {
-    return <ActivityIndicator />;
+    return <Loader />;
   }
 
   const handleSubmit = (authCode: string) => {
@@ -47,7 +47,8 @@ const CodeValidation: FC<IProps> = ({navigation}) => {
         tokenId,
       },
       onCompleted(data: any) {
-        data?.validateMobile?.success && navigation.navigate('Name');
+        const success = data?.validateMobile?.success;
+        success && navigation.navigate('Name');
       },
     });
   };

@@ -1,4 +1,5 @@
 import {Environment, Network, RecordSource, Store} from 'relay-runtime';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SERVER_IP = '167.172.52.80';
 const SERVER_PORT = '9090';
@@ -12,8 +13,12 @@ async function fetchQuery(
 ): Promise<any> {
   const headers: Record<string, string> = {};
 
-  const url = `http://${SERVER_IP}:${SERVER_PORT}/graphql?api_key=${API_KEY}`;
+  let SESSION_ID = await AsyncStorage.getItem('sessionId');
+  SESSION_ID = SESSION_ID || '';
+  console.log(SESSION_ID, 'SESSION_ID', API_KEY);
 
+  const url = `http://${SERVER_IP}:${SERVER_PORT}/graphql?api_key=${API_KEY}&session_id=${SESSION_ID}`;
+  console.log(url, 'hhd');
   const response = await fetch(url, {
     method: 'POST',
     headers: {
