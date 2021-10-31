@@ -25,7 +25,7 @@ export type MainStackParamList = {
 export type AuthStackParamList = {
   CodeValidation: undefined;
   Name: undefined;
-  SecretCode: undefined;
+  SecretCode: {secretCode: string};
   SignUpNumber: undefined;
   ConfirmSecretCode: undefined;
 };

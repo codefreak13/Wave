@@ -1,6 +1,10 @@
 import React, {FC, useMemo} from 'react';
 import {Text, Alert} from 'react-native';
-import {NavigationProp, ParamListBase} from '@react-navigation/native';
+import {
+  NavigationProp,
+  ParamListBase,
+  RouteProp,
+} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 import {useMutation} from 'react-relay';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,17 +16,17 @@ import {authData} from '../../../redux/reducers';
 import {RootState} from '../../../redux';
 import {ConfirmSecretCodeMutation} from '../../../gql';
 import {SESSION_ID} from '../../../constants';
+import {AuthStackParamList} from '../../../navigation';
 
 interface IProps {
   navigation: NavigationProp<ParamListBase>;
+  route: RouteProp<AuthStackParamList>;
 }
 
-const ConfirmSecretCode: FC<IProps> = ({navigation}) => {
+const ConfirmSecretCode: FC<IProps> = ({navigation, route}) => {
+  const secretCode = route?.params?.secretCode;
   const dispatch = useDispatch();
-  const {secretCode, fullName, tokenId} = useSelector(
-    (state: RootState) => state.auth,
-  );
-
+  const {fullName, tokenId} = useSelector((state: RootState) => state.auth);
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
   const {title} = styles;

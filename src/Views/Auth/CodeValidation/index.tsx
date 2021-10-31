@@ -38,6 +38,9 @@ const CodeValidation: FC<IProps> = ({navigation}) => {
         const success = data?.validateMobile?.success;
         success && navigation.navigate('Name');
       },
+      onError(err) {
+        console.log(err);
+      },
     });
   };
 

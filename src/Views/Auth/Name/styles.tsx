@@ -34,18 +34,17 @@ const createStyles = (theme: defaultThemeProps) =>
     },
     terms: {
       fontSize: RFValue(10),
+      color: theme.colors.WARM_GREY,
     },
     termsText: {
       textDecorationLine: 'underline',
     },
     termsMain: {
-      maxHeight: RFValue(559),
       backgroundColor: theme.colors.WHITE,
-      borderTopLeftRadius: RFValue(16),
-      borderTopRightRadius: RFValue(16),
       flex: 1,
       paddingHorizontal: RFValue(16),
       paddingTop: RFValue(8),
+      marginVertical: RFValue(25),
     },
     termsTitle: {
       fontWeight: 'bold',
@@ -59,6 +58,10 @@ const createStyles = (theme: defaultThemeProps) =>
       marginRight: RFValue(25),
       color: theme.colors.NAVY_BLUE,
       fontSize: RFValue(15),
+    },
+    conditions: {
+      color: theme.colors.BLACK,
+      fontSize: RFValue(13),
     },
   });
 

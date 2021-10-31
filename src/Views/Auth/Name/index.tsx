@@ -1,5 +1,5 @@
 import React, {useMemo, useState, useEffect} from 'react';
-import {View, Text, TextInput} from 'react-native';
+import {View, Text, TextInput, ScrollView} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import {useDispatch} from 'react-redux';
@@ -31,6 +31,7 @@ const Name = ({navigation}: IProps) => {
     termsMain,
     termsTitle,
     termsBtn,
+    conditions,
   } = styles;
 
   const [state, setstate] = useState({
@@ -69,6 +70,7 @@ const Name = ({navigation}: IProps) => {
           <TextInput
             onChangeText={fullName => setstate({...state, fullName})}
             style={textInput}
+            autoFocus={true}
           />
           <Text style={terms}>
             By signing up I agree to Wave's{' '}
@@ -94,32 +96,34 @@ const Name = ({navigation}: IProps) => {
         useNativeDriver={true}
         animationOut="slideOutDown">
         <View style={termsMain}>
-          <Text style={termsTitle}>Terms and Conditions</Text>
-          <Text>
-            {'\n'} Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Maxime mollitia, molestiae quas vel sint commodi repudiandae
-            consequuntur voluptatum laborum numquam blanditiis harum quisquam
-            eius sed odit fugiat iusto fuga praesentium optio, eaque rerum!
-            {'\n'}
-            {'\n'} eius earum ut molestias architecto voluptate aliquam nihil,
-            eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-            tenetur error, harum nesciunt ipsum debitis quas aliquid. {'\n'}
-            {'\n'}
-            Reprehenderit, quia. Quo neque error repudiandae fuga? Ipsa
-            laudantium molestias eos sapiente officiis modi at sunt excepturi
-            expedita sint? Sed quibusdam recusandae alias error harum maxime
-            adipisci amet laborum. Perspiciatis minima nesciunt dolorem!
-            Officiis iure rerum voluptates a cumque velit quibusdam sed amet
-            tempora. {'\n'}
-            {'\n'}Sit laborum ab, eius fugit doloribus tenetur fugiat,
-            temporibus enim commodi iusto libero magni deleniti quod quam
-            consequuntur! Commodi minima excepturi repudiandae velit hic maxime
-            doloremque.{'\n'}
-            {'\n'}
-          </Text>
-          <Text onPress={modalToggle} style={termsBtn}>
-            OK
-          </Text>
+          <ScrollView>
+            <Text style={termsTitle}>Terms and Conditions</Text>
+            <Text style={conditions}>
+              {'\n'} Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Maxime mollitia, molestiae quas vel sint commodi repudiandae
+              consequuntur voluptatum laborum numquam blanditiis harum quisquam
+              eius sed odit fugiat iusto fuga praesentium optio, eaque rerum!
+              {'\n'}
+              {'\n'} eius earum ut molestias architecto voluptate aliquam nihil,
+              eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
+              tenetur error, harum nesciunt ipsum debitis quas aliquid. {'\n'}
+              {'\n'}
+              Reprehenderit, quia. Quo neque error repudiandae fuga? Ipsa
+              laudantium molestias eos sapiente officiis modi at sunt excepturi
+              expedita sint? Sed quibusdam recusandae alias error harum maxime
+              adipisci amet laborum. Perspiciatis minima nesciunt dolorem!
+              Officiis iure rerum voluptates a cumque velit quibusdam sed amet
+              tempora. {'\n'}
+              {'\n'}Sit laborum ab, eius fugit doloribus tenetur fugiat,
+              temporibus enim commodi iusto libero magni deleniti quod quam
+              consequuntur! Commodi minima excepturi repudiandae velit hic
+              maxime doloremque.{'\n'}
+              {'\n'}
+            </Text>
+            <Text onPress={modalToggle} style={termsBtn}>
+              OK
+            </Text>
+          </ScrollView>
         </View>
       </Modal>
     </>

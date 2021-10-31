@@ -7,7 +7,6 @@ export interface authState {
   validateNumber: boolean;
   tokenId: string;
   fullName: string;
-  secretCode: string;
   sessionId: boolean;
 }
 
@@ -18,7 +17,6 @@ const initialState: authState = {
   validateNumber: false,
   tokenId: '',
   fullName: '',
-  secretCode: '',
   sessionId: false,
 };
 
@@ -32,13 +30,12 @@ const authSlice = createSlice({
       state.validateNumber = payload.validateNumber || state.validateNumber;
       state.tokenId = payload.tokenId || state.tokenId;
       state.fullName = payload.fullName || state.fullName;
-      state.secretCode = payload.secretCode || state.secretCode;
       state.sessionId = payload.sessionId ? true : state.sessionId;
     },
     logOut: state => {
       state.sessionId = false;
     },
-    reset: state => initialState,
+    reset: () => initialState,
   },
 });
 

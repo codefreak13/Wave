@@ -9,7 +9,11 @@ import createStyles from './styles';
 import {useTheme} from '../../../theme';
 
 const Home = () => {
-  const data = useLazyLoadQuery<HomeQueryType>(HomeQuery, {});
+  const data = useLazyLoadQuery<HomeQueryType>(
+    HomeQuery,
+    {},
+    {fetchPolicy: 'network-only'},
+  );
 
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
