@@ -1,3 +1,3 @@
-import authSlice, {authData} from './Auth';
+import authSlice, {authData, logOut, reset} from './Auth';
 
-export {authSlice, authData};
+export {authSlice, authData, logOut, reset};

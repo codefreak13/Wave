@@ -1,34 +1,32 @@
-import React, {Suspense} from 'react';
+import React, {useMemo} from 'react';
 import {View, Text} from 'react-native';
-import {graphql, useLazyLoadQuery} from 'react-relay';
-import type {HomeQuery} from './__generated__/HomeQuery.graphql';
+import {useLazyLoadQuery} from 'react-relay';
 
-import {Loader} from '../../../components';
+import {HomeQuery} from '../../../gql';
+import type {HomeQuery as HomeQueryType} from '../../../gql/__generated__/HomeQuery.graphql';
+import {SignOut} from '../../../components';
+import createStyles from './styles';
+import {useTheme} from '../../../theme';
 
 const Home = () => {
-  const data = useLazyLoadQuery<HomeQuery>(
-    graphql`
-      query HomeQuery {
-        me {
-          id
-          fullName
-          mobile
-          wallet {
-            id
-            balance
-          }
-        }
-      }
-    `,
-    {},
-  );
+  const data = useLazyLoadQuery<HomeQueryType>(HomeQuery, {});
 
-  console.log(data, 'gdgd');
+  const theme = useTheme();
+  const styles = useMemo(() => createStyles(theme), [theme]);
+  const {main, text, value} = styles;
 
   return (
-    <View>
-      <Text>{data.me?.wallet?.balance}</Text>
-      <Text>{data.me?.fullName}</Text>
+    <View style={main}>
+      <Text style={text}>
+        Full Name: <Text style={value}>{data.me?.fullName}</Text>
+      </Text>
+      <Text style={text}>
+        Mobile Number: <Text style={value}>{data.me?.mobile}</Text>
+      </Text>
+      <Text style={text}>
+        Wallet Balance: <Text style={value}>{data.me?.wallet?.balance}</Text>
+      </Text>
+      <SignOut />
     </View>
   );
 };

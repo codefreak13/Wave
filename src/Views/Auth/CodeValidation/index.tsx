@@ -1,15 +1,15 @@
 import React, {FC, useMemo} from 'react';
-import {View, Text, Pressable, ActivityIndicator} from 'react-native';
+import {View, Text, Pressable} from 'react-native';
 import CodeInput from 'react-native-confirmation-code-input';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
-import {graphql, useMutation} from 'react-relay';
+import {useMutation} from 'react-relay';
 import {useSelector} from 'react-redux';
 
 import {BackButton, Loader} from '../../../components';
 import createStyles from './styles';
 import {useTheme} from '../../../theme';
-
 import {RootState} from '../../../redux';
+import {CodeValidationMutation} from '../../../gql';
 
 interface IProps {
   navigation: NavigationProp<ParamListBase>;
@@ -22,19 +22,7 @@ const CodeValidation: FC<IProps> = ({navigation}) => {
   const styles = useMemo(() => createStyles(theme), [theme]);
   const {main, title, resend} = styles;
 
-  const [commit, isInFlight] = useMutation(graphql`
-    mutation CodeValidationMutation($authCode: String!, $tokenId: ID!) {
-      validateMobile(authCode: $authCode, tokenId: $tokenId) {
-        success
-        token {
-          id
-          authCode
-          mobile
-          whenMobileValidated
-        }
-      }
-    }
-  `);
+  const [commit, isInFlight] = useMutation(CodeValidationMutation);
 
   if (isInFlight) {
     return <Loader />;

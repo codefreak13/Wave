@@ -1,21 +1,10 @@
 import 'react-native-gesture-handler';
 import React, {Suspense} from 'react';
 import {RelayEnvironmentProvider} from 'react-relay';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  SafeAreaView,
-  StatusBar,
-} from 'react-native';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {graphql, useLazyLoadQuery} from 'react-relay';
 import {AppGQLHealthCheckQuery} from './__generated__/AppGQLHealthCheckQuery.graphql';
 import {environment} from './relay_environment';
-import Screens from './navigation';
-import {RFValue} from 'react-native-responsive-fontsize';
-import {Provider} from 'react-redux';
-import {store} from './redux';
 
 const gqlHealthCheck = graphql`
   query AppGQLHealthCheckQuery {
@@ -58,18 +47,11 @@ function Home() {
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <RelayEnvironmentProvider environment={environment}>
-        <SafeAreaView style={{flex: 1, marginTop: RFValue(30)}}>
-          <StatusBar
-            barStyle="dark-content"
-            backgroundColor="#f5f5f5"
-            translucent={true}
-          />
-          <Screens />
-        </SafeAreaView>
-      </RelayEnvironmentProvider>
-    </Provider>
+    <RelayEnvironmentProvider environment={environment}>
+      <Suspense fallback={<Text>Loading...</Text>}>
+        <Home />
+      </Suspense>
+    </RelayEnvironmentProvider>
   );
 }
 

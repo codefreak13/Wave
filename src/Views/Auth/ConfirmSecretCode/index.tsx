@@ -1,16 +1,17 @@
 import React, {FC, useMemo} from 'react';
-import {Text, Alert, ActivityIndicator} from 'react-native';
+import {Text, Alert} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
-import {graphql, useMutation} from 'react-relay';
+import {useMutation} from 'react-relay';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {BackButton, PinKeyPad} from '../../../components';
+import {BackButton, PinKeyPad, Loader} from '../../../components';
 import createStyles from './styles';
 import {useTheme} from '../../../theme';
-
 import {authData} from '../../../redux/reducers';
 import {RootState} from '../../../redux';
+import {ConfirmSecretCodeMutation} from '../../../gql';
+import {SESSION_ID} from '../../../constants';
 
 interface IProps {
   navigation: NavigationProp<ParamListBase>;
@@ -26,35 +27,14 @@ const ConfirmSecretCode: FC<IProps> = ({navigation}) => {
   const styles = useMemo(() => createStyles(theme), [theme]);
   const {title} = styles;
 
-  const [commit, isInFlight] = useMutation(graphql`
-    mutation ConfirmSecretCodeMutation(
-      $name: String!
-      $tokenId: ID!
-      $pin: String!
-    ) {
-      completeSignup(name: $name, tokenId: $tokenId, pin: $pin) {
-        session {
-          id
-          user {
-            id
-            fullName
-            mobile
-            wallet {
-              id
-              balance
-            }
-          }
-        }
-      }
-    }
-  `);
+  const [commit, isInFlight] = useMutation(ConfirmSecretCodeMutation);
 
   const bootstrapAsync = async (sessionId: string) => {
-    await AsyncStorage.setItem('sessionId', sessionId);
+    await AsyncStorage.setItem(SESSION_ID, sessionId);
   };
 
   if (isInFlight) {
-    return <ActivityIndicator />;
+    return <Loader />;
   }
 
   const _getPinKeyPadValue = (value: string) => {
@@ -68,14 +48,9 @@ const ConfirmSecretCode: FC<IProps> = ({navigation}) => {
           },
           onCompleted(data: any) {
             const sessionId = data?.completeSignup?.session?.id;
-            console.log(
-              data?.completeSignup?.session.user,
-              sessionId,
-              'sessionId',
-            );
             if (sessionId) {
-              dispatch(authData({sessionId}));
               bootstrapAsync(sessionId);
+              dispatch(authData({sessionId}));
             }
           },
         });

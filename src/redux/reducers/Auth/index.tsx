@@ -35,12 +35,16 @@ const authSlice = createSlice({
       state.secretCode = payload.secretCode || state.secretCode;
       state.sessionId = payload.sessionId ? true : state.sessionId;
     },
+    logOut: state => {
+      state.sessionId = false;
+    },
+    reset: state => initialState,
   },
 });
 
 const {
-  actions: {authData},
+  actions: {authData, logOut, reset},
 } = authSlice;
 
-export {authData};
+export {authData, logOut, reset};
 export default authSlice.reducer;

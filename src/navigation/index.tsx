@@ -6,10 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useSelector, useDispatch} from 'react-redux';
 
 import ThemeProvider from '../theme';
-
 import {RootState} from '../redux';
 import {authData} from '../redux/reducers';
-
 import {Home} from '../Views/App';
 import {
   CodeValidation,
@@ -18,6 +16,7 @@ import {
   SignUpNumber,
   ConfirmSecretCode,
 } from '../Views/Auth';
+import {SESSION_ID} from '../constants';
 
 export type MainStackParamList = {
   Home: undefined;
@@ -43,16 +42,12 @@ export default function App() {
       let sessionId: string | null;
 
       try {
-        // await AsyncStorage.removeItem('sessionId');
-
-        sessionId = await AsyncStorage.getItem('sessionId');
-        console.log(sessionId, 'sessionId');
+        sessionId = await AsyncStorage.getItem(SESSION_ID);
         sessionId && dispatch(authData({sessionId}));
       } catch (e) {}
     };
     bootstrapAsync();
   }, []);
-
   return (
     <ThemeProvider>
       <NavigationContainer>

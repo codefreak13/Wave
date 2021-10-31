@@ -1,18 +1,17 @@
 import React, {useMemo, useEffect} from 'react';
-import {View, Text, ActivityIndicator} from 'react-native';
+import {View, Text} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import * as Yup from 'yup';
 import PhoneInput from 'react-native-phone-number-input';
-import {graphql, useMutation} from 'react-relay';
+import {useMutation} from 'react-relay';
 import {useDispatch, useSelector} from 'react-redux';
 
 import createStyles from './styles';
 import {useTheme} from '../../../theme';
-
-import {WaveButton} from '../../../components';
-
+import {WaveButton, Loader} from '../../../components';
 import {authData} from '../../../redux/reducers';
 import {RootState} from '../../../redux';
+import {SignUpNumberMutation} from '../../../gql';
 
 interface IProps {
   navigation: NavigationProp<ParamListBase>;
@@ -44,7 +43,6 @@ const SignUpNumber = ({navigation}: IProps) => {
   }, [number]);
 
   const handleSubmit = async () => {
-    console.log('anab');
     if (validateNumber) {
       dispatch(authData({number}));
       commit({
@@ -62,21 +60,10 @@ const SignUpNumber = ({navigation}: IProps) => {
     }
   };
 
-  const [commit, isInFlight] = useMutation(graphql`
-    mutation SignUpNumberMutation($number: String!) {
-      startSignup(mobile: $number) {
-        token {
-          id
-          authCode
-          mobile
-          whenMobileValidated
-        }
-      }
-    }
-  `);
+  const [commit, isInFlight] = useMutation(SignUpNumberMutation);
 
   if (isInFlight) {
-    return <ActivityIndicator />;
+    return <Loader />;
   }
 
   return (
