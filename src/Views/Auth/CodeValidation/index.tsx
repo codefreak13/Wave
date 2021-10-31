@@ -20,7 +20,7 @@ const CodeValidation: FC<IProps> = ({navigation}) => {
 
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
-  const {main, title, resend} = styles;
+  const {main, title, resend, codeInput} = styles;
 
   const [commit, isInFlight] = useMutation(CodeValidationMutation);
 
@@ -60,7 +60,7 @@ const CodeValidation: FC<IProps> = ({navigation}) => {
           onFulfill={(authCode: any) => {
             handleSubmit(authCode);
           }}
-          codeInputStyle={{fontWeight: '800', fontSize: 30}}
+          codeInputStyle={codeInput}
           cellBorderWidth={1}
           className="border-b"
           inactiveColor="#B4B4B4"

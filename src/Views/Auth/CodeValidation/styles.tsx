@@ -21,6 +21,10 @@ const createStyles = (theme: defaultThemeProps) =>
     resend: {
       color: theme.colors.NAVY_BLUE,
     },
+    codeInput: {
+      fontWeight: '500',
+      fontSize: 25,
+    },
   });
 
 export default createStyles;

@@ -38,7 +38,7 @@ const SecretCode: FC<IProps> = ({navigation}) => {
           },
         ],
         {
-          cancelable: true,
+          cancelable: false,
         },
       );
     }
